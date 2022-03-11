@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,26 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/',[HomeController::class,'index']);
+
+Route::get('home',[HomeController::class,'redirect'])->middleware('auth','verified');
+Route::post('appointment',[HomeController::class,'appointment']);
+Route::get('myappointment',[HomeController::class,'myappointment']);
+Route::get('cancel_appoint/{id}',[HomeController::class,'cancel_appoint']);
+Route::get('add_doctor_view',[AdminController::class,'addview']);
+Route::get('showappointment',[AdminController::class,'showappointment']);
+Route::get('approved/{id}',[AdminController::class,'approved']);
+Route::get('canceled/{id}',[AdminController::class,'canceled']);
+Route::post('upload_doctor',[AdminController::class,'upload']);
+Route::get('showdoctor',[AdminController::class,'showdoctor']);
+Route::get('updatedoctor/{id}',[AdminController::class,'update']);
+Route::get('deletedoctor/{id}',[AdminController::class,'delete']);
+Route::post('editdoctor/{id}',[AdminController::class,'edit']);
+Route::get('emailview/{id}',[AdminController::class,'emailview']);
+Route::post('sendemail/{id}',[AdminController::class,'sendemail']);
+
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
